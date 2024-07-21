@@ -6,7 +6,7 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 require dirname(__DIR__) . "/database/ChatUser.php";
-require dirname(__DIR__) . "/database/ChatRooms.php";
+// require dirname(__DIR__) . "/database/ChatRooms.php";
 require dirname(__DIR__) . "/database/PrivateChat.php";
 
 class Chat implements MessageComponentInterface {
@@ -124,49 +124,49 @@ class Chat implements MessageComponentInterface {
                 }
             }
         }
-        else
-        {
-            //group chat
+        // else
+        // {
+        //     //group chat
 
-            $chat_object = new \ChatRooms;
+        //     $chat_object = new \ChatRooms;
 
-            $chat_object->setUserId($data['userId']);
+        //     $chat_object->setUserId($data['userId']);
 
-            $chat_object->setMessage($data['msg']);
+        //     $chat_object->setMessage($data['msg']);
 
-            $chat_object->setCreatedOn(date("Y-m-d h:i:s"));
+        //     $chat_object->setCreatedOn(date("Y-m-d h:i:s"));
 
-            $chat_object->save_chat();
+        //     $chat_object->save_chat();
 
-            $user_object = new \ChatUser;
+        //     $user_object = new \ChatUser;
 
-            $user_object->setUserId($data['userId']);
+        //     $user_object->setUserId($data['userId']);
 
-            $user_data = $user_object->get_user_data_by_id();
+        //     $user_data = $user_object->get_user_data_by_id();
 
-            $user_name = $user_data['user_name'];
+        //     $user_name = $user_data['user_name'];
 
-            $data['dt'] = date("d-m-Y h:i:s");
+        //     $data['dt'] = date("d-m-Y h:i:s");
 
 
-            foreach ($this->clients as $client) {
-                /*if ($from !== $client) {
-                    // The sender is not the receiver, send to each client connected
-                    $client->send($msg);
-                }*/
+        //     foreach ($this->clients as $client) {
+        //         /*if ($from !== $client) {
+        //             // The sender is not the receiver, send to each client connected
+        //             $client->send($msg);
+        //         }*/
 
-                if($from == $client)
-                {
-                    $data['from'] = 'Me';
-                }
-                else
-                {
-                    $data['from'] = $user_name;
-                }
+        //         if($from == $client)
+        //         {
+        //             $data['from'] = 'Me';
+        //         }
+        //         else
+        //         {
+        //             $data['from'] = $user_name;
+        //         }
 
-                $client->send(json_encode($data));
-            }
-        }
+        //         $client->send(json_encode($data));
+        //     }
+        // }
     }
 
     public function onClose(ConnectionInterface $conn) {

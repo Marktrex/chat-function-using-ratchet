@@ -38,15 +38,15 @@ class ChatRooms
 		return $this->message;
 	}
 
-	function setCreatedOn($created_on)
-	{
-		$this->created_on = $created_on;
-	}
+	// function setCreatedOn($created_on)
+	// {
+	// 	$this->created_on = $created_on;
+	// }
 
-	function getCreatedOn()
-	{
-		return $this->created_on;
-	}
+	// function getCreatedOn()
+	// {
+	// 	return $this->created_on;
+	// }
 
 	public function __construct()
 	{
@@ -57,40 +57,40 @@ class ChatRooms
 		$this->connect = $database_object->connect();
 	}
 
-	function save_chat()
-	{
-		$query = "
-		INSERT INTO chatrooms 
-			(userid, msg, created_on) 
-			VALUES (:userid, :msg, :created_on)
-		";
+	// function save_chat()
+	// {
+	// 	$query = "
+	// 	INSERT INTO chatrooms 
+	// 		(userid, msg, created_on) 
+	// 		VALUES (:userid, :msg, :created_on)
+	// 	";
 
-		$statement = $this->connect->prepare($query);
+	// 	$statement = $this->connect->prepare($query);
 
-		$statement->bindParam(':userid', $this->user_id);
+	// 	$statement->bindParam(':userid', $this->user_id);
 
-		$statement->bindParam(':msg', $this->message);
+	// 	$statement->bindParam(':msg', $this->message);
 
-		$statement->bindParam(':created_on', $this->created_on);
+	// 	$statement->bindParam(':created_on', $this->created_on);
 
-		$statement->execute();
-	}
+	// 	$statement->execute();
+	// }
 
-	function get_all_chat_data()
-	{
-		$query = "
-		SELECT * FROM chatrooms 
-			INNER JOIN chat_user_table 
-			ON chat_user_table.user_id = chatrooms.userid 
-			ORDER BY chatrooms.id ASC
-		";
+// 	function get_all_chat_data()
+// 	{
+// 		$query = "
+// 		SELECT * FROM chatrooms 
+// 			INNER JOIN chat_user_table 
+// 			ON chat_user_table.user_id = chatrooms.userid 
+// 			ORDER BY chatrooms.id ASC
+// 		";
 
-		$statement = $this->connect->prepare($query);
+// 		$statement = $this->connect->prepare($query);
 
-		$statement->execute();
+// 		$statement->execute();
 
-		return $statement->fetchAll(PDO::FETCH_ASSOC);
-	}
+// 		return $statement->fetchAll(PDO::FETCH_ASSOC);
+// 	}
 }
 	
 ?>
