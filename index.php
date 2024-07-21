@@ -15,7 +15,7 @@ if(isset($_POST['login']))
 
     $user_object = new ChatUser;
 
-    $user_object->setUserEmail($_POST['user_email']);
+    $user_object->setUserEmail($_POST['username']);
 
     $user_data = $user_object->get_user_data_by_email();
 
@@ -128,7 +128,7 @@ if(isset($_POST['login']))
                         <form method="post" id="login_form">
                             <div class="form-group">
                                 <label>Enter Your Email Address</label>
-                                <input type="text" name="user_email" id="user_email"  class="form-control" data-parsley-type="email" required />
+                                <input type="text" name="username" id="username"  class="form-control" data-parsley-type="email" required />
                             </div>
                             <div class="form-group">
                                 <label>Enter Your Password</label>

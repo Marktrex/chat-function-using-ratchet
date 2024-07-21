@@ -6,7 +6,7 @@ class ChatUser
 {
 	private $user_id;
 	private $user_name;
-	private $user_email;
+	private $username;
 	private $user_password;
 	private $user_profile;
 	private $user_status;
@@ -46,14 +46,14 @@ class ChatUser
 		return $this->user_name;
 	}
 
-	function setUserEmail($user_email)
+	function setUserEmail($username)
 	{
-		$this->user_email = $user_email;
+		$this->username = $username;
 	}
 
 	function getUserEmail()
 	{
-		return $this->user_email;
+		return $this->username;
 	}
 
 	function setUserPassword($user_password)
@@ -158,12 +158,12 @@ class ChatUser
 	{
 		$query = "
 		SELECT * FROM chat_user_table 
-		WHERE user_email = :user_email
+		WHERE username = :username
 		";
 
 		$statement = $this->connect->prepare($query);
 
-		$statement->bindParam(':user_email', $this->user_email);
+		$statement->bindParam(':username', $this->username);
 
 		if($statement->execute())
 		{
@@ -172,37 +172,37 @@ class ChatUser
 		return $user_data;
 	}
 
-	function save_data()
-	{
-		$query = "
-		INSERT INTO chat_user_table (user_name, user_email, user_password, user_profile, user_status, user_created_on, user_verification_code) 
-		VALUES (:user_name, :user_email, :user_password, :user_profile, :user_status, :user_created_on, :user_verification_code)
-		";
-		$statement = $this->connect->prepare($query);
+	// function save_data()
+	// {
+	// 	$query = "
+	// 	INSERT INTO chat_user_table (user_name, username, user_password, user_profile, user_status, user_created_on, user_verification_code) 
+	// 	VALUES (:user_name, :username, :user_password, :user_profile, :user_status, :user_created_on, :user_verification_code)
+	// 	";
+	// 	$statement = $this->connect->prepare($query);
 
-		$statement->bindParam(':user_name', $this->user_name);
+	// 	$statement->bindParam(':user_name', $this->user_name);
 
-		$statement->bindParam(':user_email', $this->user_email);
+	// 	$statement->bindParam(':username', $this->username);
 
-		$statement->bindParam(':user_password', $this->user_password);
+	// 	$statement->bindParam(':user_password', $this->user_password);
 
-		$statement->bindParam(':user_profile', $this->user_profile);
+	// 	$statement->bindParam(':user_profile', $this->user_profile);
 
-		$statement->bindParam(':user_status', $this->user_status);
+	// 	$statement->bindParam(':user_status', $this->user_status);
 
-		$statement->bindParam(':user_created_on', $this->user_created_on);
+	// 	$statement->bindParam(':user_created_on', $this->user_created_on);
 
-		// $statement->bindParam(':user_verification_code', $this->user_verification_code);
+	// 	// $statement->bindParam(':user_verification_code', $this->user_verification_code);
 
-		if($statement->execute())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	// 	if($statement->execute())
+	// 	{
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		return false;
+	// 	}
+	// }
 
 	// function is_valid_email_verification_code()
 	// {
@@ -319,7 +319,7 @@ class ChatUser
 		$query = "
 		UPDATE chat_user_table 
 		SET user_name = :user_name, 
-		user_email = :user_email, 
+		username = :username, 
 		user_password = :user_password, 
 		user_profile = :user_profile  
 		WHERE user_id = :user_id
@@ -329,7 +329,7 @@ class ChatUser
 
 		$statement->bindParam(':user_name', $this->user_name);
 
-		$statement->bindParam(':user_email', $this->user_email);
+		$statement->bindParam(':username', $this->username);
 
 		$statement->bindParam(':user_password', $this->user_password);
 
