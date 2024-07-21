@@ -39,6 +39,7 @@ if(isset($_POST['login']))
                         'id'    =>  $user_data['user_id'],
                         'name'  =>  $user_data['user_name'],
                         'profile'   =>  $user_data['user_profile'],
+                        'user_type' => $user_data['user_type'],
                         'token' =>  $user_token
                     ];
 

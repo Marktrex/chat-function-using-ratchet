@@ -19,7 +19,7 @@ class ChatUser
 
 	public function __construct()
 	{
-		require_once('Database_connection.php');
+		require_once ('Database_connection.php');
 
 		$database_object = new Database_connection;
 
@@ -138,20 +138,20 @@ class ChatUser
 
 	function make_avatar($character)
 	{
-	    $path = "images/". time() . ".png";
+		$path = "images/" . time() . ".png";
 		$image = imagecreate(200, 200);
 		$red = rand(0, 255);
 		$green = rand(0, 255);
 		$blue = rand(0, 255);
-	    imagecolorallocate($image, $red, $green, $blue);  
-	    $textcolor = imagecolorallocate($image, 255,255,255);
+		imagecolorallocate($image, $red, $green, $blue);
+		$textcolor = imagecolorallocate($image, 255, 255, 255);
 
-	    $font = dirname(__FILE__) . '/font/arial.ttf';
+		$font = dirname(__FILE__) . '/font/arial.ttf';
 
-	    imagettftext($image, 100, 0, 55, 150, $textcolor, $font, $character);
-	    imagepng($image, $path);
-	    imagedestroy($image);
-	    return $path;
+		imagettftext($image, 100, 0, 55, 150, $textcolor, $font, $character);
+		imagepng($image, $path);
+		imagedestroy($image);
+		return $path;
 	}
 
 	function get_user_data_by_email()
@@ -165,8 +165,7 @@ class ChatUser
 
 		$statement->bindParam(':username', $this->username);
 
-		if($statement->execute())
-		{
+		if ($statement->execute()) {
 			$user_data = $statement->fetch(PDO::FETCH_ASSOC);
 		}
 		return $user_data;
@@ -267,12 +266,9 @@ class ChatUser
 
 		$statement->bindParam(':user_id', $this->user_id);
 
-		if($statement->execute())
-		{
+		if ($statement->execute()) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -287,19 +283,13 @@ class ChatUser
 
 		$statement->bindParam(':user_id', $this->user_id);
 
-		try
-		{
-			if($statement->execute())
-			{
+		try {
+			if ($statement->execute()) {
 				$user_data = $statement->fetch(PDO::FETCH_ASSOC);
-			}
-			else
-			{
+			} else {
 				$user_data = array();
 			}
-		}
-		catch (Exception $error)
-		{
+		} catch (Exception $error) {
 			echo $error->getMessage();
 		}
 		return $user_data;
@@ -337,12 +327,9 @@ class ChatUser
 
 		$statement->bindParam(':user_id', $this->user_id);
 
-		if($statement->execute())
-		{
+		if ($statement->execute()) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -364,20 +351,67 @@ class ChatUser
 
 	function get_user_all_data_with_status_count()
 	{
+		// Get the user ID and user type from the session
+		$user_id = key($_SESSION['user_data']);
+		$user_type = $_SESSION['user_data'][$user_id]['user_type'];
+
+		// Initialize an array to hold the connected user IDs
+		$connected_users = [];
+
+		if ($user_type == 'Admin') {
+			// If the user is a company, fetch the user_id values connected to the company_id
+			$connection_query = "
+        SELECT user_id FROM chat_connection WHERE company_id = ?
+        ";
+			$connection_statement = $this->connect->prepare($connection_query);
+			$connection_statement->execute([$user_id]);
+			$connected_users = $connection_statement->fetchAll(PDO::FETCH_COLUMN);
+		} elseif ($user_type == 'User') {
+			// If the user is a student, fetch the company_id values connected to the user_id
+			$connection_query = "
+        SELECT company_id FROM chat_connection WHERE user_id = ?
+        ";
+			$connection_statement = $this->connect->prepare($connection_query);
+			$connection_statement->execute([$user_id]);
+			$connected_companies = $connection_statement->fetchAll(PDO::FETCH_COLUMN);
+
+			if (!empty($connected_companies)) {
+				// Fetch the user IDs of the companies
+				$placeholders = str_repeat('?,', count($connected_companies) - 1) . '?';
+				$company_users_query = "
+            SELECT user_id FROM chat_user_table WHERE user_id IN ($placeholders) AND user_type = 'Admin'
+            ";
+				$company_users_statement = $this->connect->prepare($company_users_query);
+				$company_users_statement->execute($connected_companies);
+				$connected_users = $company_users_statement->fetchAll(PDO::FETCH_COLUMN);
+			}
+		}
+
+		if (empty($connected_users)) {
+			return [];
+		}
+
+		// Now query the chat_user_table to get the user details along with the status count
+		$placeholders = str_repeat('?,', count($connected_users) - 1) . '?';
 		$query = "
-		SELECT user_id, user_name, user_profile, user_login_status, (SELECT COUNT(*) FROM chat_message WHERE to_user_id = :user_id AND from_user_id = chat_user_table.user_id AND status = 'No') AS count_status FROM chat_user_table
+		SELECT user_id, user_name, user_profile, user_login_status, 
+		(SELECT COUNT(*) FROM chat_message WHERE to_user_id = ? AND from_user_id = chat_user_table.user_id AND status = 'No') AS count_status 
+		FROM chat_user_table
+		WHERE user_id IN ($placeholders)
 		";
 
 		$statement = $this->connect->prepare($query);
-
-		$statement->bindParam(':user_id', $this->user_id);
-
-		$statement->execute();
+		$params = array_merge([$user_id], $connected_users);
+		$statement->execute($params);
 
 		$data = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 		return $data;
 	}
+
+
+
+
 
 	function update_user_connection_id()
 	{
@@ -419,4 +453,3 @@ class ChatUser
 
 
 ?>
-

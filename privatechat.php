@@ -104,6 +104,9 @@ require('database/ChatRooms.php');
 					<a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
 					<input type="button" class="btn btn-primary mt-2 mb-2" id="logout" name="logout" value="Logout" />
 				</div>
+				<!-- this is the sidebar code where it will show all the user accounts -->
+				 <!-- but I dont want to show all the users, i just want to show who is the user_ID connected to 
+				  in the chat_connection table and that will only show the data -->
 				<?php
 				}
 
