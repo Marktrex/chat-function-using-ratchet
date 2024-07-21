@@ -7,7 +7,7 @@ class ChatUser
 	private $user_id;
 	private $user_name;
 	private $username;
-	private $user_password;
+	private $password;
 	private $user_profile;
 	private $user_status;
 	private $user_created_on;
@@ -56,14 +56,14 @@ class ChatUser
 		return $this->username;
 	}
 
-	function setUserPassword($user_password)
+	function setUserPassword($password)
 	{
-		$this->user_password = $user_password;
+		$this->password = $password;
 	}
 
 	function getUserPassword()
 	{
-		return $this->user_password;
+		return $this->password;
 	}
 
 	function setUserProfile($user_profile)
@@ -175,8 +175,8 @@ class ChatUser
 	// function save_data()
 	// {
 	// 	$query = "
-	// 	INSERT INTO chat_user_table (user_name, username, user_password, user_profile, user_status, user_created_on, user_verification_code) 
-	// 	VALUES (:user_name, :username, :user_password, :user_profile, :user_status, :user_created_on, :user_verification_code)
+	// 	INSERT INTO chat_user_table (user_name, username, password, user_profile, user_status, user_created_on, user_verification_code) 
+	// 	VALUES (:user_name, :username, :password, :user_profile, :user_status, :user_created_on, :user_verification_code)
 	// 	";
 	// 	$statement = $this->connect->prepare($query);
 
@@ -184,7 +184,7 @@ class ChatUser
 
 	// 	$statement->bindParam(':username', $this->username);
 
-	// 	$statement->bindParam(':user_password', $this->user_password);
+	// 	$statement->bindParam(':password', $this->password);
 
 	// 	$statement->bindParam(':user_profile', $this->user_profile);
 
@@ -320,7 +320,7 @@ class ChatUser
 		UPDATE chat_user_table 
 		SET user_name = :user_name, 
 		username = :username, 
-		user_password = :user_password, 
+		password = :password, 
 		user_profile = :user_profile  
 		WHERE user_id = :user_id
 		";
@@ -331,7 +331,7 @@ class ChatUser
 
 		$statement->bindParam(':username', $this->username);
 
-		$statement->bindParam(':user_password', $this->user_password);
+		$statement->bindParam(':password', $this->password);
 
 		$statement->bindParam(':user_profile', $this->user_profile);
 

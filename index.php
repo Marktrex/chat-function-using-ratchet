@@ -23,7 +23,7 @@ if(isset($_POST['login']))
     {
         if($user_data['user_status'] == 'Enable')
         {
-            if($user_data['user_password'] == $_POST['user_password'])
+            if($user_data['password'] == $_POST['password'])
             {
                 $user_object->setUserId($user_data['user_id']);
 
@@ -132,7 +132,7 @@ if(isset($_POST['login']))
                             </div>
                             <div class="form-group">
                                 <label>Enter Your Password</label>
-                                <input type="password" name="user_password" id="user_password" class="form-control" required />
+                                <input type="password" name="password" id="password" class="form-control" required />
                             </div>
                             <div class="form-group text-center">
                                 <input type="submit" name="login" id="login" class="btn btn-primary" value="Login" />
