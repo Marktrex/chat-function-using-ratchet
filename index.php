@@ -42,7 +42,7 @@ if(isset($_POST['login']))
                         'token' =>  $user_token
                     ];
 
-                    header('location:chatroom.php');
+                    header('location:privatechat.php');
 
                 }
             }

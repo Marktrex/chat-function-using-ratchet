@@ -11,7 +11,7 @@ class ChatUser
 	private $user_profile;
 	private $user_status;
 	private $user_created_on;
-	private $user_verification_code;
+	// private $user_verification_code;
 	private $user_login_status;
 	private $user_token;
 	private $user_connection_id;
@@ -96,15 +96,15 @@ class ChatUser
 		return $this->user_created_on;
 	}
 
-	function setUserVerificationCode($user_verification_code)
-	{
-		$this->user_verification_code = $user_verification_code;
-	}
+	// function setUserVerificationCode($user_verification_code)
+	// {
+	// 	$this->user_verification_code = $user_verification_code;
+	// }
 
-	function getUserVerificationCode()
-	{
-		return $this->user_verification_code;
-	}
+	// function getUserVerificationCode()
+	// {
+	// 	return $this->user_verification_code;
+	// }
 
 	function setUserLoginStatus($user_login_status)
 	{
@@ -192,7 +192,7 @@ class ChatUser
 
 		$statement->bindParam(':user_created_on', $this->user_created_on);
 
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
+		// $statement->bindParam(':user_verification_code', $this->user_verification_code);
 
 		if($statement->execute())
 		{
@@ -204,52 +204,52 @@ class ChatUser
 		}
 	}
 
-	function is_valid_email_verification_code()
-	{
-		$query = "
-		SELECT * FROM chat_user_table 
-		WHERE user_verification_code = :user_verification_code
-		";
+	// function is_valid_email_verification_code()
+	// {
+	// 	$query = "
+	// 	SELECT * FROM chat_user_table 
+	// 	WHERE user_verification_code = :user_verification_code
+	// 	";
 
-		$statement = $this->connect->prepare($query);
+	// 	$statement = $this->connect->prepare($query);
 
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
+	// 	$statement->bindParam(':user_verification_code', $this->user_verification_code);
 
-		$statement->execute();
+	// 	$statement->execute();
 
-		if($statement->rowCount() > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	// 	if($statement->rowCount() > 0)
+	// 	{
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		return false;
+	// 	}
+	// }
 
-	function enable_user_account()
-	{
-		$query = "
-		UPDATE chat_user_table 
-		SET user_status = :user_status 
-		WHERE user_verification_code = :user_verification_code
-		";
+	// function enable_user_account()
+	// {
+	// 	$query = "
+	// 	UPDATE chat_user_table 
+	// 	SET user_status = :user_status 
+	// 	WHERE user_verification_code = :user_verification_code
+	// 	";
 
-		$statement = $this->connect->prepare($query);
+	// 	$statement = $this->connect->prepare($query);
 
-		$statement->bindParam(':user_status', $this->user_status);
+	// 	$statement->bindParam(':user_status', $this->user_status);
 
-		$statement->bindParam(':user_verification_code', $this->user_verification_code);
+	// 	$statement->bindParam(':user_verification_code', $this->user_verification_code);
 
-		if($statement->execute())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	// 	if($statement->execute())
+	// 	{
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		return false;
+	// 	}
+	// }
 
 	function update_user_login_data()
 	{
