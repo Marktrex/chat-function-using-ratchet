@@ -103,7 +103,7 @@ require ('database/ChatRooms.php');
 						<img src="<?php echo $value['profile']; ?>" class="img-fluid rounded-circle img-thumbnail"
 							width="150" />
 						<h3 class="mt-2"><?php echo $value['name']; ?></h3>
-						<a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
+						<!-- <a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a> -->
 						<input type="button" class="btn btn-primary mt-2 mb-2" id="logout" name="logout" value="Logout" />
 					</div>
 					<!-- this is the sidebar code where it will show all the user accounts -->
@@ -241,12 +241,7 @@ require ('database/ChatRooms.php');
 						<div class="col col-sm-6">
 							<b>Chat with <span class="text-danger" id="chat_user_name">`+ user_name + `</span></b>
 						</div>
-						<div class="col col-sm-6 text-right">
-							<a href="chatroom.php" class="btn btn-success btn-sm">Group Chat</a>&nbsp;&nbsp;&nbsp;
-							<button type="button" class="close" id="close_chat_area" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
+						
 					</div>
 				</div>
 				<div class="card-body" id="messages_area">
